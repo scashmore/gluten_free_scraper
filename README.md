@@ -13,6 +13,9 @@ This is a web scraping project built with [Scrapy](https://scrapy.org/) that col
 - Skips non-recipe pages like “Privacy Policy” and “About”
 - Exports structured data to a JSON file
 
+## Improvements
+- Check against recipes previously scrapped and only add new/differing recipies
+
 ## Setup
 
 1. **Create a virtual environment (optional but recommended)**
