@@ -22,9 +22,11 @@ This is a web scraping project built with [Scrapy](https://scrapy.org/) that col
    source venv/bin/activate
 
 2. **Install Scrappy**
+   ```bash
    pip install scrapy
 
 3. **Navigate to the project folder and run the spider**
+   ```bash
    cd gluten_free_scraper
    scrapy crawl mygf -o gluten_free_recipes.json
 
