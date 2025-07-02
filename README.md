@@ -21,8 +21,10 @@ This is a web scraping project built with [Scrapy](https://scrapy.org/) that col
    python3 -m venv venv
    source venv/bin/activate
 
+2. **Install Scrappy**
    pip install scrapy
 
+3. **Navigate to the project folder and run the spider**
    cd gluten_free_scraper
    scrapy crawl mygf -o gluten_free_recipes.json
 
