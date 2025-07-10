@@ -48,14 +48,12 @@ This is a web scraping project built with [Scrapy](https://scrapy.org/) that col
 You can run the scraper pipeline in **dry run** mode to see the SQL queries that *would* be executed without actually writing to the database.
 
 **Use this command to run the spider with dry run enabled**
-
     ```bash
     scrapy crawl mygf -s DRY_RUN=True
     ```
 
 
 ## Database Structure & Logic
-
     ```plaintext
     +---------------------+  +---------------------+  +------------------------------+
     |      recipes        |  |     ingredients     |  |     recipe_ingredients       |
