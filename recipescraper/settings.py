@@ -14,6 +14,8 @@ NEWSPIDER_MODULE = "recipescraper.spiders"
 
 ADDONS = {}
 
+LOG_LEVEL = 'DEBUG'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "recipescraper (+http://www.yourdomain.com)"
