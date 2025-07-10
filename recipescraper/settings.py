@@ -16,6 +16,14 @@ ADDONS = {}
 
 LOG_LEVEL = 'DEBUG'
 
+ITEM_PIPELINES = {
+    'recipescraper.pipelines.RecipePipeline': 300,
+}
+
+# For dry run mode:
+RECIPE_PIPELINE_DRY_RUN = True  # or False if you want to commit to DB
+
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "recipescraper (+http://www.yourdomain.com)"

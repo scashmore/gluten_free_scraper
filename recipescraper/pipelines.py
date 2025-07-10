@@ -8,6 +8,10 @@ class RecipePipeline:
     def __init__(self, dry_run=False):
         self.dry_run = dry_run
 
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(dry_run=crawler.settings.getbool('DRY_RUN', False))
+
     def open_spider(self, spider):
         if not self.dry_run:
             self.conn = get_connection()
