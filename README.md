@@ -47,14 +47,14 @@ This is a web scraping project built with [Scrapy](https://scrapy.org/) that col
 
 You can run the scraper pipeline in **dry run** mode to see the SQL queries that *would* be executed without actually writing to the database.
 
-**Use this command to run the spider with dry run enabled**
+1. **Use this command to run the spider with dry run enabled**
+
     ```bash
     scrapy crawl mygf -s DRY_RUN=True
     ```
 
 
 ## Database Structure & Logic
-    ```plaintext
     +---------------------+  +---------------------+  +------------------------------+
     |      recipes        |  |     ingredients     |  |     recipe_ingredients       |
     |---------------------|  |---------------------|  |------------------------------|
@@ -64,8 +64,6 @@ You can run the scraper pipeline in **dry run** mode to see the SQL queries that
     | instructions        |                           | unit                         |
     +---------------------+                           | section_name                 |
                                                       +------------------------------+
-   ```
-
 
 The database is designed to normalize recipe and ingredient data for flexible querying and reuse of shared ingredients across multiple recipes.
 
