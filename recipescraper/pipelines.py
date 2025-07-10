@@ -7,22 +7,16 @@ logger = logging.getLogger(__name__)
 class RecipePipeline:
     def __init__(self, dry_run=False):
         self.dry_run = dry_run
-        self.conn = None
-        self.cursor = None
 
     def open_spider(self, spider):
         if not self.dry_run:
             self.conn = get_connection()
             self.cursor = self.conn.cursor()
-            logger.info("Opened database connection.")
-        else:
-            logger.info("Dry run mode enabled: No database connection.")
 
     def close_spider(self, spider):
-        if not self.dry_run and self.conn:
+        if not self.dry_run:
             self.cursor.close()
             self.conn.close()
-            logger.info("Closed database connection.")
 
     def process_item(self, item, spider):
         recipe_id = self.insert_recipe(item)
@@ -39,9 +33,6 @@ class RecipePipeline:
 
         if not self.dry_run:
             self.conn.commit()
-            logger.info("Committed recipe to database.")
-        else:
-            logger.info("Dry run: skipped commit.")
 
         return item
 
@@ -49,22 +40,25 @@ class RecipePipeline:
         sql = "INSERT INTO recipes (title, url) VALUES (%s, %s)"
         params = (item['title'], item['url'])
         if self.dry_run:
-            logger.debug(f"[DRY RUN] SQL: {sql} | Params: {params}")
-            return 0  # Dummy ID
+            print(f"QUERY: {sql} -- PARAMS: {params}")
+            return 9999  # dummy ID
         self.cursor.execute(sql, params)
         return self.cursor.lastrowid
 
     def get_or_create_ingredient(self, name):
         sql_select = "SELECT id FROM ingredients WHERE name=%s"
-        sql_insert = "INSERT INTO ingredients (name) VALUES (%s)"
+        params_select = (name,)
         if self.dry_run:
-            logger.debug(f"[DRY RUN] SELECT id FROM ingredients WHERE name={name}")
-            logger.debug(f"[DRY RUN] If not found, INSERT INTO ingredients (name) VALUES ({name})")
-            return 0  # Dummy ID
-        self.cursor.execute(sql_select, (name,))
+            print(f"QUERY: {sql_select} -- PARAMS: {params_select}")
+            sql_insert = "INSERT INTO ingredients (name) VALUES (%s)"
+            params_insert = (name,)
+            print(f"QUERY: {sql_insert} -- PARAMS: {params_insert}")
+            return hash(name) % 10000  # dummy ID
+        self.cursor.execute(sql_select, params_select)
         row = self.cursor.fetchone()
         if row:
             return row[0]
+        sql_insert = "INSERT INTO ingredients (name) VALUES (%s)"
         self.cursor.execute(sql_insert, (name,))
         return self.cursor.lastrowid
 
@@ -75,7 +69,7 @@ class RecipePipeline:
         """
         params = (recipe_id, ingredient_id, quantity, unit, section_name)
         if self.dry_run:
-            logger.debug(f"[DRY RUN] SQL: {sql.strip()} | Params: {params}")
+            print(f"QUERY: {sql.strip()} -- PARAMS: {params}")
         else:
             self.cursor.execute(sql, params)
 
@@ -90,7 +84,7 @@ class RecipePipeline:
         sql = "UPDATE recipes SET instructions=%s WHERE id=%s"
         params = (instructions_text, recipe_id)
         if self.dry_run:
-            logger.debug(f"[DRY RUN] SQL: {sql} | Params: {params}")
+            print(f"QUERY: {sql} -- PARAMS: {params}")
         else:
             self.cursor.execute(sql, params)
 
