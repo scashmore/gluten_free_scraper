@@ -43,10 +43,6 @@ This is a web scraping project built with [Scrapy](https://scrapy.org/) that col
     scrapy crawl mygf
     ```
 
-## Demo
-Spider Run
-<video width="640" height="360" controls> <source src="demo/spider_run.mp4" type="video/mp4"> Your browser does not support the video tag. </video> 
-
 ## Dry Run
 
 You can run the scraper pipeline in **dry run** mode to see the SQL queries that *would* be executed without actually writing to the database.
